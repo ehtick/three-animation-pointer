@@ -54,6 +54,12 @@ export class GLTFAnimationPointerExtension {
 		/** @type {import("..").AnimationPointerResolver | null} */
 		this.animationPointerResolver = null;
 
+		/**
+		 * @type {Map<string, string>}
+		 * Maps from original pointer paths to resolved three.js property paths.
+		 */
+		this.pointerPathMap = new Map();
+
 	}
 
 	/** 
@@ -351,7 +357,8 @@ export class GLTFAnimationPointerExtension {
 
 			}
 
-			target.extensions[ KHR_ANIMATION_POINTER ].pointer = path;
+			const pointer = ext.pointer;
+			this.pointerPathMap.set( pointer, path );
 
 		}
 
@@ -384,7 +391,8 @@ export class GLTFAnimationPointerExtension {
 		const useExtension = target.extensions && target.extensions[ KHR_ANIMATION_POINTER ] && target.path && target.path === 'pointer';
 		if ( ! useExtension ) return null;
 
-		let animationPointerPropertyPath = target.extensions[ KHR_ANIMATION_POINTER ].pointer;
+		const pointer = target.extensions[ KHR_ANIMATION_POINTER ].pointer;
+		let animationPointerPropertyPath = this.pointerPathMap.get( pointer );
 		if ( ! animationPointerPropertyPath ) return null;
 
 		const tracks = [];
