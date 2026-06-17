@@ -4,6 +4,9 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] - 2026-06-17
+- Fix: don't mutate the `KHR_animation_pointer.pointer` value in `parser.json`. The resolved three.js property path is now kept in plugin-local state, so other plugins / app code can still read the original spec-defined pointer after load — by @0b5vr in [#2](https://github.com/needle-tools/three-animation-pointer/pull/2)
+
 ## [1.1.1] - 2026-06-12
 - Fix: morph target (blend shape) weight animation was silently dropped for multi-material meshes without skin/bones. The multi-material morph branch only bound children that were `SkinnedMesh`; such meshes load as a `Group` of plain `Mesh` children, so no track was created (and the empty-but-truthy result skipped the fallback). Now any child with `morphTargetInfluences` is bound.
 
